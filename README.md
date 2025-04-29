@@ -46,6 +46,8 @@ O projeto possui duas documentações específicas separadas na pasta `docs/`:
 2. **Execute o fluxo ETL Coincap:**  
    Depois que o ambiente estiver em funcionamento, acesse o [`README de fluxo`](docs/fluxo/README.md) para entender e executar o pipeline que coleta e processa os dados da API Coincap.
 
+3. **PowerBI final:**
+    Foi criado um powerbi simples com a extração dos dados no dia 29/04/2025 que pode ser acessado no seguinte link: [`Google Drive`](https://drive.google.com/drive/folders/1tu69so6-fguUtdb1rzbPhxoWlOSLulwW?usp=sharing)
 ---
 
 Sinta-se à vontade para explorar, testar, adaptar e contribuir com este projeto!
