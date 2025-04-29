@@ -1,0 +1,513 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# Importações python e configurações iniciais\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:06:54.369",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eImportações python e configurações iniciais\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745847197517_1463284396",
+      "id": "20250428-133317_1989601628",
+      "dateCreated": "2025-04-28 13:33:17.518",
+      "dateStarted": "2025-04-28 14:06:54.426",
+      "dateFinished": "2025-04-28 14:06:54.437",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%livy.pyspark\n\n# Importações necessárias\nimport sys\nimport requests\nimport json\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import col, when, countDistinct, stddev, sum as _sum, avg as _avg, lit, to_json, struct\nfrom pyspark.sql.types import DoubleType, IntegerType\n\n# Define o token e headers\ntoken \u003d \"07c2e47d598ddac50c6fcff6ece0d23cae45a79f0d489fb5c9fb3e906ad9f889\"\nheaders \u003d {\n    \"Authorization\": f\"Bearer {token}\"\n}",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-29 13:24:51.384",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003chr/\u003eSpark Application Id: null\u003cbr/\u003eSpark WebUI: \u003ca href\u003d\"null\"\u003enull\u003c/a\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745844047687_1106738354",
+      "id": "20250428-124047_455512658",
+      "dateCreated": "2025-04-28 12:40:47.688",
+      "dateStarted": "2025-04-28 14:41:57.723",
+      "dateFinished": "2025-04-28 14:41:58.768",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n\n# Coleta dos dados da API\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:07:44.743",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eColeta dos dados da API\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745847242477_-1598425901",
+      "id": "20250428-133402_450901085",
+      "dateCreated": "2025-04-28 13:34:02.477",
+      "dateStarted": "2025-04-28 14:07:44.829",
+      "dateFinished": "2025-04-28 14:07:44.837",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%livy.pyspark\r\n\r\n# Função para coletar dados\r\ndef coletar_dados(url: str) -\u003e dict:\r\n    response \u003d requests.get(url, headers\u003dheaders)\r\n    if response.status_code \u003d\u003d 200:\r\n        return response.json()\r\n    else:\r\n        raise Exception(f\"Erro na requisição: {response.status_code} - {response.text}\")\r\n\r\n# URLs da API Coincap\r\nurl_assets \u003d \"https://rest.coincap.io/v3/assets/\"\r\nurl_mercados \u003d \"https://rest.coincap.io/v3/markets/\"\r\n\r\n# Coleta dos dados\r\ndados_assets \u003d coletar_dados(url_assets)\r\ndados_mercados \u003d coletar_dados(url_mercados)\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:07:44.927",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003chr/\u003eSpark Application Id: null\u003cbr/\u003eSpark WebUI: \u003ca href\u003d\"null\"\u003enull\u003c/a\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745845058855_1705730783",
+      "id": "20250428-125738_1337805872",
+      "dateCreated": "2025-04-28 12:57:38.855",
+      "dateStarted": "2025-04-28 14:07:45.033",
+      "dateFinished": "2025-04-28 14:07:48.089",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Inicialização dataframes",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:07:48.137",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eInicialização dataframes\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745843749407_-750725421",
+      "id": "20250428-123549_2628274",
+      "dateCreated": "2025-04-28 12:35:49.407",
+      "dateStarted": "2025-04-28 14:07:48.210",
+      "dateFinished": "2025-04-28 14:07:48.305",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%livy.pyspark\r\n\r\n# Converte os dados Python (lista de dicts) em RDDs de JSON strings\r\nrdd_assets_json \u003d spark.sparkContext.parallelize([json.dumps(row) for row in dados_assets[\u0027data\u0027]])\r\nrdd_mercados_json \u003d spark.sparkContext.parallelize([json.dumps(row) for row in dados_mercados[\u0027data\u0027]])\r\n\r\n# Lê os RDDs como DataFrames usando leitura de JSON\r\ndf_assets \u003d spark.read.json(rdd_assets_json)\r\ndf_mercados \u003d spark.read.json(rdd_mercados_json)\r\n\r\n# Renomeia colunas dos assets\r\ndf_assets \u003d (df_assets.withColumnRenamed(\"id\", \"id\")\r\n                      .withColumnRenamed(\"rank\", \"posicao\")\r\n                      .withColumnRenamed(\"symbol\", \"simbolo\")\r\n                      .withColumnRenamed(\"name\", \"nome\")\r\n                      .withColumnRenamed(\"supply\", \"suprimento\")\r\n                      .withColumnRenamed(\"maxSupply\", \"suprimento_maximo\")\r\n                      .withColumnRenamed(\"marketCapUsd\", \"capitalizacao_mercado_usd\")\r\n                      .withColumnRenamed(\"volumeUsd24Hr\", \"\")\r\n                      .withColumnRenamed(\"priceUsd\", \"preco_usd\")\r\n                      .withColumnRenamed(\"changePercent24Hr\", \"variacao_percentual_24h\")\r\n                      .withColumnRenamed(\"vwap24Hr\", \"vwap_24h\")\r\n                      .withColumnRenamed(\"explorer\", \"explorador\"))\r\n\r\n# Renomeia colunas dos mercados\r\ndf_mercados \u003d (df_mercados.withColumnRenamed(\"exchangeId\", \"id_exchange\")\r\n                           .withColumnRenamed(\"baseId\", \"id_base\")\r\n                           .withColumnRenamed(\"quoteId\", \"id_cotacao\")\r\n                           .withColumnRenamed(\"baseSymbol\", \"simbolo_base\")\r\n                           .withColumnRenamed(\"quoteSymbol\", \"simbolo_cotacao\")\r\n                           .withColumnRenamed(\"priceUsd\", \"preco_usd\")\r\n                           .withColumnRenamed(\"volumeUsd24Hr\", \"volume_usd_24h\"))\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:27:14.028",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003chr/\u003eSpark Application Id: null\u003cbr/\u003eSpark WebUI: \u003ca href\u003d\"null\"\u003enull\u003c/a\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745847344598_1579058449",
+      "id": "20250428-133544_1871155987",
+      "dateCreated": "2025-04-28 13:35:44.598",
+      "dateStarted": "2025-04-28 14:07:48.509",
+      "dateFinished": "2025-04-28 14:07:59.739",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n\n# Transformação e enriquecimento dos dados",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:07:59.766",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eTransformação e enriquecimento dos dados\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745847368411_1173559649",
+      "id": "20250428-133608_1455973842",
+      "dateCreated": "2025-04-28 13:36:08.412",
+      "dateStarted": "2025-04-28 14:07:59.831",
+      "dateFinished": "2025-04-28 14:07:59.843",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%livy.pyspark\r\n\r\n# Conversão explícita de tipos para df_assets\r\ndf_assets \u003d (\r\n    df_assets\r\n    .withColumn(\"preco_usd\", col(\"preco_usd\").cast(DoubleType()))\r\n    .withColumn(\"variacao_percentual_24h\", col(\"variacao_percentual_24h\").cast(DoubleType()))\r\n    .withColumn(\"capitalizacao_mercado_usd\", col(\"capitalizacao_mercado_usd\").cast(DoubleType()))\r\n    .withColumn(\"volume_usd_24h\", col(\"volume_usd_24h\").cast(DoubleType()))\r\n    .withColumn(\"suprimento\", col(\"suprimento\").cast(DoubleType()))\r\n    .withColumn(\"suprimento_maximo\", col(\"suprimento_maximo\").cast(DoubleType()))\r\n    .withColumn(\"posicao\", col(\"posicao\").cast(IntegerType()))\r\n)\r\n\r\n# Conversão explícita de tipos para df_mercados\r\ndf_mercados \u003d (\r\n    df_mercados\r\n    .withColumn(\"preco_usd\", col(\"preco_usd\").cast(DoubleType()))\r\n    .withColumn(\"volume_usd_24h\", col(\"volume_usd_24h\").cast(DoubleType()))\r\n)\r\n\r\n# Cálculo da razão de suprimento\r\ndf_assets \u003d df_assets.withColumn(\r\n    \"razao_suprimento\", (col(\"suprimento\") / col(\"suprimento_maximo\"))\r\n)\r\n\r\n# Categoriza os ativos pela capitalização\r\ndf_categorias_capitalizacao \u003d (\r\n    df_assets.select(\"id\", \"capitalizacao_mercado_usd\")\r\n    .withColumn(\r\n        \"categoria_capitalizacao\",\r\n        when(col(\"capitalizacao_mercado_usd\") \u003e 1e10, \"Grande Capitalizacao\")\r\n        .when((col(\"capitalizacao_mercado_usd\") \u003e 1e9) \u0026 (col(\"capitalizacao_mercado_usd\") \u003c\u003d 1e10), \"Media Capitalizacao\")\r\n        .otherwise(\"Pequena Capitalizacao\")\r\n    )\r\n)\r\n\r\n# Número de exchanges por ativo\r\ndf_exchanges_por_ativo \u003d (\r\n    df_mercados.groupBy(\"id_base\")\r\n    .agg(countDistinct(\"id_exchange\").alias(\"numero_exchanges\"))\r\n)\r\n\r\n# Volatilidade de preços por ativo\r\ndf_volatilidade_precos \u003d (\r\n    df_mercados.groupBy(\"id_base\")\r\n    .agg(stddev(\"preco_usd\").alias(\"desvio_padrao_preco\"))\r\n)\r\n\r\n# Aplica alias nos DataFrames\r\ndf_assets_alias \u003d df_assets.alias(\"assets\")\r\ndf_exchanges_alias \u003d df_exchanges_por_ativo.alias(\"exchanges\")\r\ndf_volatilidade_alias \u003d df_volatilidade_precos.alias(\"volatilidade\")\r\ndf_categoria_alias \u003d df_categorias_capitalizacao.alias(\"categoria\")\r\n\r\n# Faz os joins\r\ndf_assets_final \u003d (\r\n    df_assets_alias\r\n    .join(df_categoria_alias, col(\"assets.id\") \u003d\u003d col(\"categoria.id\"), \"left\")\r\n    .join(df_exchanges_alias, col(\"assets.id\") \u003d\u003d col(\"exchanges.id_base\"), \"left\")\r\n    .join(df_volatilidade_alias, col(\"assets.id\") \u003d\u003d col(\"volatilidade.id_base\"), \"left\")\r\n)\r\n\r\n# Seleciona apenas as colunas desejadas (evitando duplicadas e garantindo tipos)\r\ndf_assets_final \u003d df_assets_final.select(\r\n    col(\"assets.id\").alias(\"id\"),\r\n    col(\"assets.nome\").alias(\"nome\"),\r\n    col(\"assets.simbolo\").alias(\"simbolo\"),\r\n    col(\"assets.posicao\").alias(\"ranking\"),\r\n    col(\"assets.preco_usd\").alias(\"preco_usd\"),\r\n    col(\"assets.variacao_percentual_24h\").alias(\"variacao_percentual_24h\"),\r\n    col(\"assets.capitalizacao_mercado_usd\").alias(\"capitalizacao_mercado_usd\"),\r\n    col(\"assets.volume_usd_24h\").alias(\"volume_24h_usd\"),\r\n    col(\"assets.suprimento\").alias(\"suprimento\"),\r\n    col(\"assets.suprimento_maximo\").alias(\"suprimento_maximo\"),\r\n    col(\"assets.razao_suprimento\").alias(\"razao_suprimento\"),\r\n    col(\"categoria.categoria_capitalizacao\").alias(\"categoria_capitalizacao\"),\r\n    col(\"exchanges.numero_exchanges\").alias(\"numero_exchanges\"),\r\n    col(\"volatilidade.desvio_padrao_preco\").alias(\"desvio_padrao_preco\")\r\n)\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:42:06.590",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003chr/\u003eSpark Application Id: null\u003cbr/\u003eSpark WebUI: \u003ca href\u003d\"null\"\u003enull\u003c/a\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745847391570_-683083815",
+      "id": "20250428-133631_124627782",
+      "dateCreated": "2025-04-28 13:36:31.570",
+      "dateStarted": "2025-04-28 14:42:06.651",
+      "dateFinished": "2025-04-28 14:42:08.727",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n\n# Geração dos Insights Analíticos",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:09:49.180",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eGeração dos Insights Analíticos\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745847425071_1434992014",
+      "id": "20250428-133705_135125595",
+      "dateCreated": "2025-04-28 13:37:05.071",
+      "dateStarted": "2025-04-28 14:09:49.189",
+      "dateFinished": "2025-04-28 14:09:49.208",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%livy.pyspark\n\n# Volume total\ndf_volume_total \u003d df_assets.agg(_sum(\"volume_usd_24h\").alias(\"volume_total_usd_24h\"))\n\n# Distribuição por categoria de capitalização\ndf_distribuicao_cap \u003d (\n    df_categorias_capitalizacao.groupBy(\"categoria_capitalizacao\")\n    .count()\n    .withColumn(\"json\", to_json(struct(\"categoria_capitalizacao\", \"count\")))\n)\n\n# Média da variação percentual 24h por categoria\ndf_media_variacao \u003d (\n    df_assets.join(df_categorias_capitalizacao, on\u003d\"id\", how\u003d\"inner\")\n    .groupBy(\"categoria_capitalizacao\")\n    .agg(_avg(\"variacao_percentual_24h\").alias(\"media_variacao_24h\"))\n    .withColumn(\"json\", to_json(struct(\"categoria_capitalizacao\", \"media_variacao_24h\")))\n)\n\n# Monta DataFrame de resumo\ndf_resumo_analitico \u003d (\n    df_volume_total\n    .withColumn(\"distribuicao_capitalizacao_json\", lit(\n        \"[\" + \",\".join([row[\u0027json\u0027] for row in df_distribuicao_cap.collect()]) + \"]\"\n    ))\n    .withColumn(\"media_variacao_capitalizacao_json\", lit(\n        \"[\" + \",\".join([row[\u0027json\u0027] for row in df_media_variacao.collect()]) + \"]\"\n    ))\n)\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:10:06.447",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003chr/\u003eSpark Application Id: null\u003cbr/\u003eSpark WebUI: \u003ca href\u003d\"null\"\u003enull\u003c/a\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849389096_-1602929525",
+      "id": "20250428-140949_149284662",
+      "dateCreated": "2025-04-28 14:09:49.097",
+      "dateStarted": "2025-04-28 14:10:06.514",
+      "dateFinished": "2025-04-28 14:10:13.677",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n\n# Salvando os dados nas respectivas tabelas HIVE",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:20:08.291",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eSalvando os dados nas respectivas tabelas HIVE\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849990947_1873117909",
+      "id": "20250428-141950_1205453714",
+      "dateCreated": "2025-04-28 14:19:50.947",
+      "dateStarted": "2025-04-28 14:20:08.289",
+      "dateFinished": "2025-04-28 14:20:08.299",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%livy.pyspark\ndf_assets_final.write.mode(\"overwrite\").format(\"parquet\").saveAsTable(\"ativos_coincap\")\ndf_mercados.write.mode(\"overwrite\").format(\"parquet\").saveAsTable(\"mercados_coincap\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:42:14.652",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003chr/\u003eSpark Application Id: null\u003cbr/\u003eSpark WebUI: \u003ca href\u003d\"null\"\u003enull\u003c/a\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849406447_-224833174",
+      "id": "20250428-141006_1392652492",
+      "dateCreated": "2025-04-28 14:10:06.447",
+      "dateStarted": "2025-04-28 14:42:14.692",
+      "dateFinished": "2025-04-28 14:42:30.041",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%livy.pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:20:10.293",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1745850010292_207145900",
+      "id": "20250428-142010_838877308",
+      "dateCreated": "2025-04-28 14:20:10.292",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "API_requests",
+  "id": "2KV2DXW8J",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {
+    "md:shared_process": [],
+    "hive:shared_process": [],
+    "livy:shared_process": []
+  },
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

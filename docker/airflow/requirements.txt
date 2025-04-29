@@ -1,0 +1,10 @@
+apache-airflow==2.7.3
+apache-airflow-providers-apache-livy
+apache-airflow-providers-apache-hive
+pandas
+numpy
+scikit-learn
+requests
+matplotlib
+seaborn
+requests
