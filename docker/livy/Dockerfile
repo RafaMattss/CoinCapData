@@ -1,13 +1,9 @@
-# Usa a imagem base do Apache Spark na versão 3.3.3
 FROM docker.io/apache/spark:3.3.3
 
-# Define a variável de ambiente LIVY_HOME como /opt/livy
 ENV LIVY_HOME /opt/livy
 
-# Muda para o usuário root para realizar as operações como root
 USER root
 
-# Atualiza os pacotes e instalações
 RUN apt-get update \
     && echo "update terminado" \ 
     && apt-get install -y --no-install-recommends unzip software-properties-common r-base r-base-dev \  
@@ -28,8 +24,6 @@ RUN apt-get update \
     && echo "mv terminado" \
     && mkdir -p /tmp/spark-events \
     && chmod -R 777 /tmp/spark-events \
-    ##&& mkdir $LIVY_HOME/logs \
-    ##&& echo "mkdir terminado" \
     && chown -R spark:spark $LIVY_HOME \
     && ln -s $(which python3.6) /usr/bin/python \
     && echo "chown terminado" \
@@ -38,10 +32,8 @@ RUN apt-get update \
     && curl "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.1026/aws-java-sdk-bundle-1.11.1026.jar" -O \
     && mv aws-java-sdk-bundle-1.11.1026.jar $SPARK_HOME/jars 
 
-# Muda para o usuário spark para execução do serviço
 USER spark
 
-# Define o ponto de entrada (entrypoint) como iniciar o servidor Livy e abrir um shell bash
 ENTRYPOINT /opt/spark/sbin/start-history-server.sh \
     && /opt/livy/bin/livy-server start \
     && bash

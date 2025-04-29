@@ -1,9 +1,7 @@
 FROM docker.io/apache/zeppelin:0.8.2
 
-# Muda para o usuário root para realizar as operações como root
 USER root
 
-# Atualiza os pacotes e instalações
 RUN apt-get update \
     && apt-get install -y curl \
     && curl "https://repo.maven.apache.org/maven2/org/apache/hive/hive-jdbc/3.1.3/hive-jdbc-3.1.3.jar" -O \

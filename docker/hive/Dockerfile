@@ -1,12 +1,9 @@
-# Use a imagem base do Apache Hive
 FROM docker.io/apache/hive:3.1.3
 
 ENV HIVE_HOME /opt/hive
 
-# Muda para o usuário root para realizar as operações como root
 USER root
 
-# Define o novo conteúdo do entrypoint.sh
 RUN echo '#!/bin/bash' > /entrypoint.sh && \
     echo 'set -x' >> /entrypoint.sh && \
     echo ': ${DB_DRIVER:=derby}' >> /entrypoint.sh && \
@@ -43,7 +40,6 @@ RUN echo '#!/bin/bash' > /entrypoint.sh && \
     echo 'fi' >> /entrypoint.sh && \
     echo 'exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp --service $SERVICE_NAME' >> /entrypoint.sh
 
-# Atualiza os pacotes e instalações
 RUN apt-get update \
     && apt-get install -y curl \
     && chown -R hive:hive /opt/hive \
