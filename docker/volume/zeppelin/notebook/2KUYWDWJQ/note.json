@@ -1,0 +1,854 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md \n\n# Criação das tabelas no banco Hive\n\n\u003e Todas as tabelas estão armazenadas no formato **Parquet**, garantindo alta performance de leitura e escrita no ambiente Spark/Hive.",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:15:10.740",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eCriação das tabelas no banco Hive\u003c/h1\u003e\n\u003cblockquote\u003e\n  \u003cp\u003eTodas as tabelas estão armazenadas no formato \u003cstrong\u003eParquet\u003c/strong\u003e, garantindo alta performance de leitura e escrita no ambiente Spark/Hive.\u003c/p\u003e\n\u003c/blockquote\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849456342_775317217",
+      "id": "20250428-141056_566249261",
+      "dateCreated": "2025-04-28 14:10:56.342",
+      "dateStarted": "2025-04-28 14:15:10.741",
+      "dateFinished": "2025-04-28 14:15:10.755",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n\n## 1. Tabela `ativos_coincap`\nEssa tabela armazena informações consolidadas de todos os ativos (criptomoedas) extraídos da API Coincap.  \nContém tanto dados básicos quanto métricas calculadas durante a etapa de transformação.\n\n**Principais campos:**\n- `id`: Identificador único do ativo.\n- `nome`: Nome da moeda.\n- `simbolo`: Símbolo de mercado (ex: BTC, ETH).\n- `ranking`: Posição do ativo por capitalização de mercado.\n- `preco_usd`: Preço atual em dólar americano (USD).\n- `variacao_percentual_24h`: Variação percentual de preço nas últimas 24 horas.\n- `capitalizacao_mercado_usd`: Valor total de mercado em dólar.\n- `volume_24h_usd`: Volume de negociação nas últimas 24 horas em dólar.\n- `suprimento`: Quantidade atual de moedas disponíveis no mercado.\n- `suprimento_maximo`: Máximo de moedas possíveis para o ativo.\n- `razao_suprimento`: Razão entre o suprimento atual e o máximo disponível.\n- `categoria_capitalizacao`: Classificação do ativo (Grande, Média ou Pequena capitalização).\n- `numero_exchanges`: Número de exchanges onde o ativo é negociado.\n- `desvio_padrao_preco`: Volatilidade de preço baseada no desvio padrão.\n\n---",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:53:38.462",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e1. Tabela \u003ccode\u003eativos_coincap\u003c/code\u003e\u003c/h2\u003e\n\u003cp\u003eEssa tabela armazena informações consolidadas de todos os ativos (criptomoedas) extraídos da API Coincap.\u003cbr/\u003eContém tanto dados básicos quanto métricas calculadas durante a etapa de transformação.\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003ePrincipais campos:\u003c/strong\u003e\u003cbr/\u003e- \u003ccode\u003eid\u003c/code\u003e: Identificador único do ativo.\u003cbr/\u003e- \u003ccode\u003enome\u003c/code\u003e: Nome da moeda.\u003cbr/\u003e- \u003ccode\u003esimbolo\u003c/code\u003e: Símbolo de mercado (ex: BTC, ETH).\u003cbr/\u003e- \u003ccode\u003eranking\u003c/code\u003e: Posição do ativo por capitalização de mercado.\u003cbr/\u003e- \u003ccode\u003epreco_usd\u003c/code\u003e: Preço atual em dólar americano (USD).\u003cbr/\u003e- \u003ccode\u003evariacao_percentual_24h\u003c/code\u003e: Variação percentual de preço nas últimas 24 horas.\u003cbr/\u003e- \u003ccode\u003ecapitalizacao_mercado_usd\u003c/code\u003e: Valor total de mercado em dólar.\u003cbr/\u003e- \u003ccode\u003evolume_24h_usd\u003c/code\u003e: Volume de negociação nas últimas 24 horas em dólar.\u003cbr/\u003e- \u003ccode\u003esuprimento\u003c/code\u003e: Quantidade atual de moedas disponíveis no mercado.\u003cbr/\u003e- \u003ccode\u003esuprimento_maximo\u003c/code\u003e: Máximo de moedas possíveis para o ativo.\u003cbr/\u003e- \u003ccode\u003erazao_suprimento\u003c/code\u003e: Razão entre o suprimento atual e o máximo disponível.\u003cbr/\u003e- \u003ccode\u003ecategoria_capitalizacao\u003c/code\u003e: Classificação do ativo (Grande, Média ou Pequena capitalização).\u003cbr/\u003e- \u003ccode\u003enumero_exchanges\u003c/code\u003e: Número de exchanges onde o ativo é negociado.\u003cbr/\u003e- \u003ccode\u003edesvio_padrao_preco\u003c/code\u003e: Volatilidade de preço baseada no desvio padrão.\u003c/p\u003e\n\u003chr/\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849482761_1936040861",
+      "id": "20250428-141122_114580628",
+      "dateCreated": "2025-04-28 14:11:22.761",
+      "dateStarted": "2025-04-28 14:53:35.075",
+      "dateFinished": "2025-04-28 14:53:35.145",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nCREATE TABLE IF NOT EXISTS ativos_coincap (\n    id STRING,\n    nome STRING,\n    simbolo STRING,\n    ranking INT,\n    preco_usd DOUBLE,\n    variacao_percentual_24h DOUBLE,\n    capitalizacao_mercado_usd DOUBLE,\n    volume_24h_usd DOUBLE,\n    suprimento DOUBLE,\n    suprimento_maximo DOUBLE,\n    razao_suprimento DOUBLE,\n    categoria_capitalizacao STRING,\n    numero_exchanges INT,\n    desvio_padrao_preco DOUBLE\n)\nSTORED AS PARQUET\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:28:29.662",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849719365_-203924413",
+      "id": "20250428-141519_555826942",
+      "dateCreated": "2025-04-28 14:15:19.365",
+      "dateStarted": "2025-04-28 14:28:29.710",
+      "dateFinished": "2025-04-28 14:28:30.203",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\r\n\r\n## 2. Tabela `mercados_coincap`\r\nEssa tabela guarda informações detalhadas sobre os mercados de negociação dos ativos (pares de compra e venda em exchanges).\r\n\r\n**Principais campos:**\r\n- `id_base`: ID do ativo base negociado.\r\n- `simbolo_base`: Símbolo do ativo base.\r\n- `id_exchange`: Identificador da exchange onde o par é negociado.\r\n- `percentexchangevolume`: Percentual que esse par representa no volume total da exchange.\r\n- `pricequote`: Preço do ativo base em relação ao ativo de cotação (em string).\r\n- `preco_usd`: Preço do ativo base convertido diretamente para dólares (USD).\r\n- `id_cotacao`: ID do ativo de cotação (moeda de referência, ex: USD, BTC).\r\n- `simbolo_cotacao`: Símbolo do ativo de cotação.\r\n- `rank`: Ranking do par de negociação dentro da exchange.\r\n- `tradescount24hr`: Quantidade de negociações realizadas no par nas últimas 24 horas.\r\n- `updated`: Timestamp da última atualização das informações.\r\n- `volume_usd_24h`: Volume total negociado em dólares nas últimas 24 horas.\r\n\r\n---\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:52:39.446",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e2. Tabela \u003ccode\u003emercados_coincap\u003c/code\u003e\u003c/h2\u003e\n\u003cp\u003eEssa tabela guarda informações detalhadas sobre os mercados de negociação dos ativos (pares de compra e venda em exchanges).\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003ePrincipais campos:\u003c/strong\u003e\u003cbr/\u003e- \u003ccode\u003eid_base\u003c/code\u003e: ID do ativo base negociado.\u003cbr/\u003e- \u003ccode\u003esimbolo_base\u003c/code\u003e: Símbolo do ativo base.\u003cbr/\u003e- \u003ccode\u003eid_exchange\u003c/code\u003e: Identificador da exchange onde o par é negociado.\u003cbr/\u003e- \u003ccode\u003epercentexchangevolume\u003c/code\u003e: Percentual que esse par representa no volume total da exchange.\u003cbr/\u003e- \u003ccode\u003epricequote\u003c/code\u003e: Preço do ativo base em relação ao ativo de cotação (em string).\u003cbr/\u003e- \u003ccode\u003epreco_usd\u003c/code\u003e: Preço do ativo base convertido diretamente para dólares (USD).\u003cbr/\u003e- \u003ccode\u003eid_cotacao\u003c/code\u003e: ID do ativo de cotação (moeda de referência, ex: USD, BTC).\u003cbr/\u003e- \u003ccode\u003esimbolo_cotacao\u003c/code\u003e: Símbolo do ativo de cotação.\u003cbr/\u003e- \u003ccode\u003erank\u003c/code\u003e: Ranking do par de negociação dentro da exchange.\u003cbr/\u003e- \u003ccode\u003etradescount24hr\u003c/code\u003e: Quantidade de negociações realizadas no par nas últimas 24 horas.\u003cbr/\u003e- \u003ccode\u003eupdated\u003c/code\u003e: Timestamp da última atualização das informações.\u003cbr/\u003e- \u003ccode\u003evolume_usd_24h\u003c/code\u003e: Volume total negociado em dólares nas últimas 24 horas.\u003c/p\u003e\n\u003chr/\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849652766_-2022510716",
+      "id": "20250428-141412_1955684275",
+      "dateCreated": "2025-04-28 14:14:12.767",
+      "dateStarted": "2025-04-28 14:52:39.454",
+      "dateFinished": "2025-04-28 14:52:39.519",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nCREATE TABLE IF NOT EXISTS mercados_coincap (\n  id_base STRING, \n  simbolo_base STRING, \n  id_exchange STRING, \n  percentexchangevolume STRING, \n  pricequote STRING, \n  preco_usd DOUBLE, \n  id_cotacao STRING, \n  simbolo_cotacao STRING, \n  rank STRING, \n  tradescount24hr STRING, \n  updated BIGINT, \n  volume_usd_24h DOUBLE\n)\nSTORED AS PARQUET\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:43:29.341",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849696143_-1178875601",
+      "id": "20250428-141456_1263308369",
+      "dateCreated": "2025-04-28 14:14:56.143",
+      "dateStarted": "2025-04-28 14:17:37.772",
+      "dateFinished": "2025-04-28 14:17:38.684",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n\n# Visualizaçao dos dados das tabelas\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:18:55.604",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eVisualizaçao dos dados das tabelas\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849852328_-1521695251",
+      "id": "20250428-141732_55550051",
+      "dateCreated": "2025-04-28 14:17:32.328",
+      "dateStarted": "2025-04-28 14:18:55.606",
+      "dateFinished": "2025-04-28 14:18:55.628",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nSELECT *\nFROM ativos_coincap\nLIMIT 10\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-29 13:40:57.679",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "ativos_coincap.id": "string",
+                      "ativos_coincap.nome": "string",
+                      "ativos_coincap.simbolo": "string",
+                      "ativos_coincap.ranking": "string",
+                      "ativos_coincap.preco_usd": "string",
+                      "ativos_coincap.variacao_percentual_24h": "string",
+                      "ativos_coincap.capitalizacao_mercado_usd": "string",
+                      "ativos_coincap.volume_24h_usd": "string",
+                      "ativos_coincap.suprimento": "string",
+                      "ativos_coincap.suprimento_maximo": "string",
+                      "ativos_coincap.razao_suprimento": "string",
+                      "ativos_coincap.categoria_capitalizacao": "string",
+                      "ativos_coincap.numero_exchanges": "string",
+                      "ativos_coincap.desvio_padrao_preco": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "hide"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "ativos_coincap.nome",
+                  "index": 1.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "ativos_coincap.preco_usd",
+                  "index": 4.0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "ativos_coincap.id\tativos_coincap.nome\tativos_coincap.simbolo\tativos_coincap.ranking\tativos_coincap.preco_usd\tativos_coincap.variacao_percentual_24h\tativos_coincap.capitalizacao_mercado_usd\tativos_coincap.volume_24h_usd\tativos_coincap.suprimento\tativos_coincap.suprimento_maximo\tativos_coincap.razao_suprimento\tativos_coincap.categoria_capitalizacao\tativos_coincap.numero_exchanges\tativos_coincap.desvio_padrao_preco\nfartcoin\tFartcoin\tFARTCOIN\t67\t1.1486577912722165\t5.52578655890755\t1.1486557880130284E9\t1.431475625873685E8\t9.99998256E8\t1.0E9\t0.999998256\tMedia Capitalizacao\t1\tnull\nalgorand\tAlgorand\tALGO\t50\t0.2282151068641094\t2.5460067291905815\t1.959886726159319E9\t5.218728850313649E7\t8.587892156176728E9\t1.0E10\t0.8587892156176729\tMedia Capitalizacao\t1\tnull\nraydium\tRaydium\tRAY\t80\t2.9403161179027633\t0.5535599423431397\t8.535903584900657E8\t1.1180321876778944E8\t2.90305642067801E8\t5.55E8\t0.5230732289509928\tPequena Capitalizacao\tnull\tnull\npi\tPi\tPI\t31\t0.6113271585969491\t-3.36179555974852\t4.2557742000281534E9\t5.43449892432216E7\t6.961533019072044E9\t1.0E11\t0.06961533019072044\tMedia Capitalizacao\tnull\tnull\nhyperliquid\tHyperliquid\tHYPE\t26\t17.96803653857414\t1.373221725380918\t6.000033739499562E9\t1.8724753883982945E7\t3.3392818E8\t1.0E9\t0.33392818\tMedia Capitalizacao\tnull\tnull\nrender\tRender\tRENDER\t49\t4.419842986677725\t1.1640935965005152\t2.288226039646968E9\t5.950185830765156E7\t5.1771659005628264E8\t6.44168762E8\t0.8036971374533722\tMedia Capitalizacao\tnull\tnull\nmulti-collateral-dai\tDai\tDAI\t27\t0.9991536665333764\t-0.1075767070027752\t5.360841799722363E9\t2.235847644196375E7\t5.365382702664872E9\tnull\tnull\tMedia Capitalizacao\tnull\tnull\nfilecoin\tFilecoin\tFIL\t53\t2.7456239104052806\t1.488785176739553\t1.8158659548088996E9\t7.141897872919248E7\t6.6136733E8\tnull\tnull\tMedia Capitalizacao\t1\tnull\nsolana\tSolana\tSOL\t6\t149.63951649037676\t0.8740447884270603\t7.744571975921394E10\t2.112000511644549E9\t5.1754858325938547E8\tnull\tnull\tGrande Capitalizacao\t1\tnull\npepe\tPepe\tPEPE\t32\t8.9447372615E-6\t1.260910358306265\t3.762960620967747E9\t4.216017850350912E8\t4.2068989965354356E14\t4.2069E14\t0.9999997614717335\tMedia Capitalizacao\t1\tnull\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849935548_-621715380",
+      "id": "20250428-141855_412252158",
+      "dateCreated": "2025-04-28 14:18:55.548",
+      "dateStarted": "2025-04-29 13:40:57.805",
+      "dateFinished": "2025-04-29 13:40:58.834",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nSELECT \n    nome,\n    simbolo,\n    capitalizacao_mercado_usd\nFROM ativos_coincap\nORDER BY capitalizacao_mercado_usd DESC\nLIMIT 10",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-29 13:35:37.284",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "nome": "string",
+                      "simbolo": "string",
+                      "capitalizacao_mercado_usd": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "nome\tsimbolo\tcapitalizacao_mercado_usd\nBitcoin\tBTC\t1.875369667250358E12\nEthereum\tETH\t2.1666431036412445E11\nTether\tUSDT\t1.4736399385621893E11\nXRP\tXRP\t1.342256500804401E11\nBNB\tBNB\t8.720127257414188E10\nSolana\tSOL\t7.744571975921394E10\nUSDC\tUSDC\t6.2054925200852196E10\nDogecoin\tDOGE\t2.672961879515311E10\nCardano\tADA\t2.505912107774467E10\nTRON\tTRX\t2.3267790647779938E10\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745849949217_1046208960",
+      "id": "20250428-141909_1097778251",
+      "dateCreated": "2025-04-28 14:19:09.217",
+      "dateStarted": "2025-04-29 13:35:37.619",
+      "dateFinished": "2025-04-29 13:35:39.565",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nSELECT \n    categoria_capitalizacao,\n    COUNT(*) AS quantidade_ativos\nFROM ativos_coincap\nGROUP BY categoria_capitalizacao",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:32:32.645",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "pieChart",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "categoria_capitalizacao": "string",
+                      "quantidade_ativos": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "categoria_capitalizacao\tquantidade_ativos\nGrande Capitalizacao\t13\nMedia Capitalizacao\t61\nPequena Capitalizacao\t26\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745850705274_1213420017",
+      "id": "20250428-143145_401360932",
+      "dateCreated": "2025-04-28 14:31:45.274",
+      "dateStarted": "2025-04-28 14:32:10.808",
+      "dateFinished": "2025-04-28 14:32:15.280",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nSELECT \n    nome,\n    simbolo,\n    desvio_padrao_preco\nFROM ativos_coincap\nORDER BY desvio_padrao_preco DESC\nLIMIT 10",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-29 13:41:20.765",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "nome": "string",
+                      "simbolo": "string",
+                      "desvio_padrao_preco": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "nome\tsimbolo\tdesvio_padrao_preco\nWrapped ETH\tWETH\t12.984391008084119\nBitcoin\tBTC\t12.703447681445228\nEthereum\tETH\t0.8134167502040501\nLitecoin\tLTC\t0.16975653917302536\nUSDC\tUSDC\t2.829275652883641E-4\nPepe\tPEPE\tnull\nRaydium\tRAY\tnull\nRender\tRENDER\tnull\nDai\tDAI\tnull\nCardano\tADA\tnull\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745850730720_1588125402",
+      "id": "20250428-143210_1052785171",
+      "dateCreated": "2025-04-28 14:32:10.721",
+      "dateStarted": "2025-04-29 13:41:20.936",
+      "dateFinished": "2025-04-29 13:41:22.591",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nSELECT \n    nome,\n    simbolo,\n    preco_usd,\n    capitalizacao_mercado_usd\nFROM ativos_coincap\nWHERE preco_usd IS NOT NULL AND capitalizacao_mercado_usd IS NOT NULL\nORDER BY capitalizacao_mercado_usd DESC",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:34:45.891",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "scatterChart",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "nome": "string",
+                      "simbolo": "string",
+                      "preco_usd": "string",
+                      "capitalizacao_mercado_usd": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "scatterChart": {
+                  "yAxis": {
+                    "name": "preco_usd",
+                    "index": 2.0,
+                    "aggr": "sum"
+                  },
+                  "xAxis": {
+                    "name": "simbolo",
+                    "index": 1.0,
+                    "aggr": "sum"
+                  }
+                }
+              }
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "nome\tsimbolo\tpreco_usd\tcapitalizacao_mercado_usd\nChainlink\tLINK\t14.8283878241161226\t9743733201.0891662261780416\nThe Graph\tGRT\t0.0994729686399607\t972367147.3625146437711201\nWrapped BNB\tWBNB\t607.4290489748750050\t961490050.6769275755647007\nQuant\tQNT\t75.6091727007235583\t912809732.4125879297836254\nAvalanche\tAVAX\t21.8560998479058370\t9100388338.1074552572101142\nCurve DAO Token\tCRV\t0.6624207061939198\t884851917.9278382305197170\nPayPal USD\tPYUSD\t0.9997963733038976\t884090306.9713668425940114\nStellar\tXLM\t0.2858671940452740\t8828131473.6947201988273022\nBNB\tBNB\t605.5356719826544137\t87201272574.1418771024455710\nRaydium\tRAY\t2.9403161179027632\t853590358.4900657374598996\nJasmyCoin\tJASMY\t0.0169867612306655\t839910403.5664123849645398\nUNUS SED LEO\tLEO\t8.9961548885648307\t8308732234.9384492281894282\nToncoin\tTON\t3.2898236458317740\t8267125940.2008766556010600\nIOTA\tIOTA\t0.2205953664942964\t822177902.7875472917732892\nHedera\tHBAR\t0.1940717964220641\t8197366539.7254743195825462\nTether Gold\tXAUT\t3298.0202568527964868\t813041145.8003788011118832\nVirtuals Protocol\tVIRTUAL\t1.2504269765208092\t812153816.7859380338182194\nShiba Inu\tSHIB\t0.0000136991961129\t8072255479.2352356795309349\nFour\tFORM\t2.0962284388799967\t800481000.1110997445606951\nBitcoin SV\tBSV\t39.9616141505768683\t793542873.0768932049285009\nNexo\tNEXO\t1.2223660407918045\t789826731.6950038044191014\nSolana\tSOL\t149.6395164903767557\t77445719759.2139393641012984\nPudgy Penguins\tPENGU\t0.0123162635774792\t774205206.8296755662794272\nLido DAO\tLDO\t0.8516874859051257\t764755119.9733506890135069\nFLOKI\tFLOKI\t0.0000789594005437\t760113555.0408835242364135\nGala\tGALA\t0.0169545756855624\t749166573.1888659181170529\nThe Sandbox\tSAND\t0.3006003393321624\t745896794.1470100414497353\nHelium\tHNT\t4.0959281937640658\t744007748.4292118059322189\nTheta Network\tTHETA\t0.7295869024097107\t729586902.4097107000000000\nBitTorrent [New]\tBTTOLD\t0.0000007135618376\t703615601.0829970340232000\nBitcoin Cash\tBCH\t350.8139143028015973\t6967950380.4803744372069503\nPAX Gold\tPAXG\t3297.8046187480781844\t693763180.9676680803076130\nPancakeSwap\tCAKE\t2.0944111637077100\t661853253.7955672343584283\nKaia\tKAIA\t0.1108418886319582\t661333180.7424023069961159\nUsual USD\tUSD0\t0.9977530774622127\t658210956.8757971897858526\nLitecoin\tLTC\t86.2054275696514953\t6513550066.6619697840904679\nOnyxcoin\tXCN\t0.0196036021813581\t650967905.6035635551314428\nPolkadot\tDOT\t4.1787292110817732\t6361141830.6895703087507920\nUSDC\tUSDC\t0.9985395481372034\t62054925200.8521954297278546\nBitcoin BEP2\tBTCB\t94312.4807539118651387\t6149961042.5850144893628203\nWrapped ETH\tWETH\t1790.5486848309582556\t6043670476.4007028905614594\nHyperliquid\tHYPE\t17.9680365385741410\t6000033739.4995626991933800\nDai\tDAI\t0.9991536665333765\t5360841799.7223638753286821\nBitget Token\tBGB\t4.3975734621369715\t5145130559.9495745188173578\nEthena USDe\tUSDE\t0.9995043926418745\t4994452179.4045356378904788\nMonero\tXMR\t262.7062937009341409\t4846075766.4539073489059197\nPi\tPI\t0.6113271585969491\t4255774200.0281533261262915\nPepe\tPEPE\t0.0000089447372615\t3762960620.9677470216453609\nUniswap\tUNI\t5.5217389301525547\t3470778289.4645845337502581\nAptos\tAPT\t5.6015532888827986\t3469475348.6886701574529525\nBittensor\tTAO\t377.5654930617963546\t3279950327.4736102974347238\nOKB\tOKB\t52.1682163692360991\t3130092982.1541659460000000\nNear Protocol\tNEAR\t2.5508491189452171\t3082988220.0508953653563485\nOndo\tONDO\t0.9739308603842852\t3076752313.7654432086032708\nTrump Official\tTRUMP\t14.9386966906275597\t2987730363.3133659201144621\nGateToken\tGT\t22.3460353190071640\t2746564340.5279381034524320\nInternet Computer\tICP\t5.1061500702966996\t2719700251.3656732899637502\nDogecoin\tDOGE\t0.1793452967701590\t26729618795.1531086031550193\nKaspa\tKAS\t0.0978792778787844\t2553664736.8388178354250603\nPOL (prev. MATIC)\tPOL\t0.2441564986371748\t2542290536.0439679642401565\nEthereum Classic\tETC\t16.7455605913176269\t2540306299.4466715116687610\nAave\tAAVE\t167.7974773552147612\t2534537295.6196237000698893\nCardano\tADA\t0.7099205752976340\t25059121077.7446707908061598\nMantle\tMNT\t0.7384377082911360\t2484617209.1620947744669312\nCronos\tCRO\t0.0916329725849057\t2434831092.7947258209863672\nVeChain\tVET\t0.0272817646837284\t2345823659.7116108558843268\nTRON\tTRX\t0.2450876062127786\t23267790647.7799363988769325\nRender\tRENDER\t4.4198429866777256\t2288226039.6469679582634112\nEthereum\tETH\t1794.6886590730793584\t216664310364.1244592207927546\nAlgorand\tALGO\t0.2282151068641094\t1959886726.1593188735917467\nEthena\tENA\t0.3474927018422182\t1929670409.9175679418750000\nBitcoin\tBTC\t94442.8049901475527484\t1875369667250.3579844355284800\nArtificial Superintelligence Alliance\tFET\t0.7229071875582810\t1821726112.6468681200000000\nFilecoin\tFIL\t2.7456239104052807\t1815865954.8088997144595310\nCelestia\tTIA\t2.9170808978148092\t1792547124.5519509793962763\nCosmos\tATOM\t4.4162807490047958\t1726475199.2527136382555432\nLido Staked ETH\tSTETH\t1792.6504451563458424\t16580087265.2069367759460952\nArbitrum\tARB\t0.3405294081614573\t1619794743.6017373754041114\nBonk\tBONK\t0.0000202736421259\t1579198632.1243751314813930\nSonic (prev. FTM)\tS\t0.5317892447883293\t1531553024.9903883840000000\nFirst Digital USD\tFDUSD\t0.9916077602044012\t1496889284.3089062505718922\nWorldcoin\tWLD\t1.1344277825309560\t1484785814.2950482191659968\nTether\tUSDT\t1.0008171923025661\t147363993856.2189452610880110\nXRP\tXRP\t2.2966250510653192\t134225650080.4400917989000408\nJupiter\tJUP\t0.4710425769062105\t1339825655.0361294749995839\nKuCoin Token\tKCS\t10.5740058988824997\t1322018628.2277828310363080\nStacks\tSTX\t0.8548251098812320\t1302224895.5603674645691465\nXDC Network\tXDC\t0.0809431521061451\t1271200535.0460125432011550\nOptimism\tOP\t0.7818587135699267\t1267162987.8288197324814882\nMaker\tMKR\t1495.0475962605947433\t1248186996.3789874596315397\nWrapped Bitcoin\tWBTC\t94302.8789379318066610\t12162931205.7387452407304256\nSui\tSUI\t3.7265087418878422\t12111089689.5460495208423114\nFartcoin\tFARTCOIN\t1.1486577912722164\t1148655788.0130284212545984\nStory\tIP\t4.0487246772964777\t1090795240.1882864233149892\nSei\tSEI\t0.2123078979213389\t1084303614.1699696380730358\nDeXe\tDEXE\t12.9091518025887823\t1080926771.2140406837130442\nEOS\tEOS\t0.6729488533846499\t1050967874.0478002112717729\nFlare\tFLR\t0.0171892913065942\t1048265961.6064216086913593\nImmutable X\tIMX\t0.5849145005456701\t1034314572.6981081657333756\nInjective\tINJ\t10.0715117715153261\t1006858452.7912133433681872\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745850759958_-1124305294",
+      "id": "20250428-143239_109865723",
+      "dateCreated": "2025-04-28 14:32:39.958",
+      "dateStarted": "2025-04-28 14:33:13.800",
+      "dateFinished": "2025-04-28 14:33:16.473",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nSELECT \n    nome,\n    simbolo,\n    volume_24h_usd\nFROM ativos_coincap\nORDER BY volume_24h_usd DESC\nLIMIT 10\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:35:15.007",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "nome": "string",
+                      "simbolo": "string",
+                      "volume_24h_usd": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "nome\tsimbolo\tvolume_24h_usd\nShiba Inu\tSHIB\t98253810.8067970194928963\nBitget Token\tBGB\t98144721.9827529561672706\nToncoin\tTON\t94370601.7521980812822748\nOptimism\tOP\t89400741.6597006437931824\nKaia\tKAIA\t8905177.2480676995698714\nBitcoin Cash\tBCH\t87862087.1080550027978112\nFlare\tFLR\t8683364.6205467230833138\nHedera\tHBAR\t86805248.4417546119938777\nDogecoin\tDOGE\t848903346.6477403742710351\nEthena\tENA\t82588377.2733962484720993\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745850790665_-808942692",
+      "id": "20250428-143310_1457862006",
+      "dateCreated": "2025-04-28 14:33:10.665",
+      "dateStarted": "2025-04-28 14:35:10.277",
+      "dateFinished": "2025-04-28 14:35:13.936",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n\nSELECT \n    AVG(numero_exchanges) AS media_exchanges_por_ativo\nFROM ativos_coincap",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-29 13:41:36.813",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "media_exchanges_por_ativo": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "media_exchanges_por_ativo\n1.108695652173913\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745850910211_798440714",
+      "id": "20250428-143510_1177197577",
+      "dateCreated": "2025-04-28 14:35:10.211",
+      "dateStarted": "2025-04-29 13:41:36.896",
+      "dateFinished": "2025-04-29 13:41:39.356",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\nSELECT \n    SUM(volume_usd_24h) AS volume_total_usd\nFROM mercados_coincap",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-29 13:57:47.938",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "volume_total_usd": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "volume_total_usd\n5.760163832076005E8\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1745850922401_-1001222493",
+      "id": "20250428-143522_2030163235",
+      "dateCreated": "2025-04-28 14:35:22.401",
+      "dateStarted": "2025-04-29 13:57:48.041",
+      "dateFinished": "2025-04-29 13:57:49.638",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%hive\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-04-28 14:37:06.025",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1745851026024_-722502517",
+      "id": "20250428-143706_692891880",
+      "dateCreated": "2025-04-28 14:37:06.024",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "TABLES_hive",
+  "id": "2KUYWDWJQ",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {
+    "md:shared_process": [],
+    "hive:shared_process": [],
+    "livy:shared_process": []
+  },
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
