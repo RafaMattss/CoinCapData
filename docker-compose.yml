@@ -1,0 +1,213 @@
+version: "3" 
+
+services: 
+  livy-spark:  
+    build: 
+      context: docker/livy 
+    ports:  
+      - "18080:18080"  
+      - "4040:4040"   
+      - "8998:8998" 
+    volumes:  
+      - ./docker/volume/livy/conf:/opt/livy/conf 
+      - ./docker/volume/spark/conf:/opt/spark/conf
+    stdin_open: true  
+    tty: true         
+    hostname: livy    
+    networks:        
+      - default-network
+
+  zeppelin: 
+    build: 
+      context: docker/zeppelin 
+    ports:  
+      - "8080:8080"  
+    depends_on:  
+      - livy-spark 
+    environment:  
+      - ZEPPELIN_ADDR=0.0.0.0  
+    volumes:
+      - ./docker/volume/zeppelin/notebook:/zeppelin/notebook 
+      - ./docker/volume/zeppelin/conf/interpreter.json:/zeppelin/conf/interpreter.json
+    networks: 
+      - default-network
+      
+  minio:
+    image: docker.io/minio/minio:RELEASE.2024-01-01T16-36-33Z 
+    ports:  
+      - "9000:9000" 
+      - "9001:9001" 
+    command: server /data --console-address ":9001" 
+    volumes:
+      - ./docker/volume/minio/data:/data 
+    networks: 
+      - default-network
+
+  postgres:
+    hostname: postgres  
+    container_name: postgres  
+    image: postgres:11-alpine 
+    ports:  
+      - 5432:5432  
+    environment:  
+      POSTGRES_USER: admin  
+      POSTGRES_PASSWORD: admin 
+      POSTGRES_DB: metastore_db 
+    volumes:
+      - ./docker/volume/postgres/data:/var/lib/postgresql/data/
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -U admin -d metastore_db"]
+      interval: 1s  
+      timeout: 10s  
+      retries: 10 
+    networks: 
+      - default-network
+
+  metastore: 
+    build: 
+      context: docker/hive 
+    hostname: metastore  
+    container_name: metastore  
+    environment: 
+      SERVICE_NAME: metastore 
+      DB_DRIVER: postgres
+    restart: always
+    ports:  
+      - "9083:9083" 
+    volumes:
+      - ./docker/volume/hive/conf/hive-site.xml:/opt/hive/conf/hive-site.xml
+    networks: 
+      - default-network
+
+  hiveserver2:
+    build: 
+      context: docker/hive 
+    container_name: hiveserver2  
+    hostname: hiveserver2
+    depends_on:
+      - metastore
+    environment:
+      SERVICE_NAME: 'hiveserver2'
+      SERVICE_OPTS: '-Xmx1G -Dhive.metastore.uris=thrift://metastore:9083' 
+      AWS_ACCESS_KEY_ID: minioadmin  
+      AWS_SECRET_ACCESS_KEY: minioadmin  
+      IS_RESUME: 'true'  
+    ports:  
+      - "10000:10000"  
+      - "10002:10002"  
+    volumes:
+      - ./docker/volume/hive/conf/hive-site.xml:/opt/hive/conf/hive-site.xml
+      - ./docker/volume/hadoop/conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+    networks: 
+      - default-network
+    
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
+    networks: 
+      - default-network
+
+  airflow-webserver:
+    build:
+      context: docker/airflow 
+    restart: always
+    command: webserver
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@postgres/metastore_db
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://admin:admin@postgres/metastore_db
+      AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+      AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+      _AIRFLOW_DB_MIGRATE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
+      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
+      _PIP_ADDITIONAL_REQUIREMENTS: ''
+    user: "0:0"
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./docker/volume/airflow/dags:/opt/airflow/dags
+      - ./docker/volume/airflow/logs:/opt/airflow/logs
+      - ./docker/volume/airflow/config:/opt/airflow/config
+      - ./docker/volume/airflow/plugins:/opt/airflow/plugins
+    networks:
+      - default-network
+  
+  airflow-scheduler:
+    build:
+      context: docker/airflow
+    restart: always
+    command: scheduler
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@postgres/metastore_db
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://admin:admin@postgres/metastore_db
+      AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+      AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+    volumes:
+      - ./docker/volume/airflow/dags:/opt/airflow/dags
+      - ./docker/volume/airflow/logs:/opt/airflow/logs
+      - ./docker/volume/airflow/config:/opt/airflow/config
+      - ./docker/volume/airflow/plugins:/opt/airflow/plugins
+    networks:
+      - default-network
+
+  airflow-triggerer:
+    build:  
+      context: docker/airflow
+    restart: always
+    command: triggerer
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@postgres/metastore_db
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://admin:admin@postgres/metastore_db
+      AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+      AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+    volumes:
+      - ./docker/volume/airflow/dags:/opt/airflow/dags
+      - ./docker/volume/airflow/logs:/opt/airflow/logs
+      - ./docker/volume/airflow/config:/opt/airflow/config
+      - ./docker/volume/airflow/plugins:/opt/airflow/plugins
+    networks:
+      - default-network
+    
+  airflow-worker:
+    build:
+      context: docker/airflow
+    command: celery worker
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@postgres/metastore_db
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://admin:admin@postgres/metastore_db
+      AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+      AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+      DUMB_INIT_SETSID: "0"
+    volumes:
+      - ./docker/volume/airflow/dags:/opt/airflow/dags
+      - ./docker/volume/airflow/logs:/opt/airflow/logs
+      - ./docker/volume/airflow/config:/opt/airflow/config
+      - ./docker/volume/airflow/plugins:/opt/airflow/plugins
+    networks:
+      - default-network
+
+networks:
+  default-network:
+    name: bigdata-docker
