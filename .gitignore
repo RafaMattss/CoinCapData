@@ -1,4 +1,5 @@
-composer.phar
-/vendor/
-/docker/volume/postgres
+/docker/volume/postgres/
 /docker/volume/minio/data/.minio.sys/
+docker/volume/airflow/logs
+docker/volume/airflow/plugins
+__pycache__
