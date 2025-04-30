@@ -1,3 +1,7 @@
+Claro! Aqui está o conteúdo atualizado do README com as informações solicitadas:
+
+---
+
 # 💡 Pipeline Coincap - Documentação Técnica
 
 ## 📌 Visão Geral
@@ -79,7 +83,7 @@ Este notebook detalha o fluxo completo, em Python, que realiza:
 O **Apache Airflow** executa automaticamente o pipeline Coincap por meio de uma DAG que:
 
 1. Cria a conexão com o **Livy Server**.
-2. Envia o script Python (`pipeline_coincap.py`) armazenado no **bucket MinIO `pipelines`**.
+2. Envia o script Python [`pipeline_coincap.py`](/pipelines/pipeline_coincap.py) armazenado no **bucket MinIO `pipelines`**.
 
 ---
 
@@ -87,7 +91,7 @@ O **Apache Airflow** executa automaticamente o pipeline Coincap por meio de uma 
 
 - Para **atualizar o código do pipeline**, edite o arquivo localmente e atualize o conteúdo do bucket no MinIO:
   - Bucket: `pipelines`
-  - Nome do arquivo: `pipeline_coincap.py`
+  - Nome do arquivo: [`pipeline_coincap.py`](/pipelines/pipeline_coincap.py)
 
 - Para **atualizar a DAG no Airflow**, edite o arquivo local localizado em:
 
@@ -106,6 +110,20 @@ http://localhost:18080
 ```
 
 Essa página exibe o histórico e status dos jobs Spark executados via Livy.
+
+---
+
+## 🔐 Acesso às Interfaces
+
+- **MinIO**  
+  Interface gráfica: [http://localhost:9001](http://localhost:9001)  
+  - Usuário: `minioadmin`  
+  - Senha: `minioadmin`
+
+- **Airflow**  
+  Interface web: [http://localhost:8080](http://localhost:8080)  
+  - Usuário: `airflow`  
+  - Senha: `airflow`
 
 ---
 
@@ -139,3 +157,15 @@ flowchart TD
 
 - O script Python e a DAG podem ser atualizados separadamente.
 - Todo o pipeline é modular e auditável via Zeppelin, Spark UI e Airflow.
+
+---
+
+## ⚠️ Limitação de Integração com MinIO
+
+Infelizmente, **não foi possível realizar uma integração consistente entre o MinIO e os arquivos locais** a ponto de permitir a edição direta do conteúdo do bucket pelo VSCode ou outro editor de arquivos local.
+
+No entanto, o arquivo [`pipeline_coincap.py`](/pipelines/pipeline_coincap.py) já foi corretamente enviado ao **bucket `pipelines`** no MinIO e está disponível para execução via Airflow.
+
+---
+
+Se quiser, posso gerar um PDF desse README também. Deseja isso?
